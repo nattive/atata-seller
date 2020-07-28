@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export default axios.create({
-    baseURL: `http://atatawebsite.test/api/`
+    baseURL: `http://api.atata57.com/api/login/`
 });

@@ -6,7 +6,8 @@ import AppNavigator from "./MainScreens/EntryPoint.js/AppNavigator";
 import "rsuite/dist/styles/rsuite-default.css";
 import { Widget } from "react-chat-widget";
 import "react-chat-widget/lib/styles.css";
-
+import { Provider } from "react-redux";
+import store from "./Helpers/Store";
 // const Routes = {
 //   Home: Index,
 //   login: SignIn,
@@ -20,10 +21,12 @@ import "react-chat-widget/lib/styles.css";
 
 function App() {
   return (
-    <div className=' h-100'>
-      <Widget title="Chat with Support" />
-      <AppNavigator />
-    </div>
+    <Provider store={store}>
+      <div className=" h-100">
+        <Widget title="Chat with Support" />
+        <AppNavigator />
+      </div>
+    </Provider>
   );
 }
 
