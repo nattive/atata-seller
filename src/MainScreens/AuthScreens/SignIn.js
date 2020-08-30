@@ -1,13 +1,13 @@
-import React from "react";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { useHistory } from "react-router-dom";
-import SignInContainer from "./SignInContainer";
 import HomeNav from "../HomePage/HomeNav";
 import "./SignUp.css";
 import HomeFooter from "../HomePage/HomeFooter";
+import SignInContainer from './SignInContainer';
 
-export default function SignIn() {
-  let history = useHistory();
-
+export const SignIn = () => {
+  const history = useHistory()
   return (
     <>
       <div className="auth-body">
@@ -18,3 +18,8 @@ export default function SignIn() {
     </>
   );
 }
+
+const mapStateToProps = (state) => ({
+  
+})
+export default connect(mapStateToProps, null)(SignIn)
