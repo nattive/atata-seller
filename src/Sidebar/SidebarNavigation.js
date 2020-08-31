@@ -63,29 +63,7 @@ export default class SidebarNavigation extends Component {
 
   // S
   async componentDidMount() {
-    const TOKEN = localStorage.getItem("token");
-    try {
-      var user = await verifyToken(TOKEN);
-      try {
-        var seller = await fetchUser(user.id);
-        this.state.seller = seller.data;
-      } catch (error) {
-        localStorage.removeItem("token");
-        this.props.history.push({
-          pathname: "/login",
-          message: "Session Expired",
-          type: "error",
-        });
-        console.error(error);
-      }
-    } catch (error) {
-      localStorage.removeItem("token");
-      this.props.history.push({
-        pathname: "/login",
-        message: "Session Expired",
-        type: "error",
-      });
-    }
+   
   }
   render() {
     const { path, url } = this.props;

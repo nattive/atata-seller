@@ -185,28 +185,6 @@ export default class CreateSellerContainer extends Component {
            * Format required data in to an object
            */
           const formData = {
-            user_id: this.state.user_id,
-            Legal_or_business_name: this.state.Legal_or_business_name,
-            Product_Category: this.state.Product_Category,
-            AddressLine1: this.state.AddressLine1,
-            AddressLine2: this.state.AddressLine2,
-            cityOrTown: this.state.cityOrTown,
-            State: this.state.State,
-            Country: this.state.Country,
-            TIN: this.state.TIN,
-            BusinessRegistration: this.state.BusinessRegistration,
-            VATRegistrationStatus: this.state.VATRegistrationStatus,
-            Bank: this.state.Bank,
-            Bank_code: this.state.Bank_code,
-            Account_name: this.state.Account_name,
-            IBAN: this.state.IBAN,
-            Account_number: this.state.Account_number,
-            BVN: this.state.BVN,
-            PersonInCharge: this.state.PersonInCharge,
-            Phone_number_PIC: this.state.Phone_number_PIC,
-            Phone_num: this.state.Phone_number,
-            email: this.state.email,
-            website: this.state.website,
             seller_user_data: 0,
           };
           await registerSeller(formData)

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import "./SignUp.css";
+import { connect } from 'react-redux'
 import {
   FlexboxGrid,
   Container,
@@ -22,9 +23,8 @@ import {
   Dropdown,
   Icon,
 } from "rsuite";
-import verifyToken, { login } from "../../Partials/Authentication";
 import { Button } from "semantic-ui-react";
-
+import { login } from "../../Actions/loginAction"
 const formFields = [
   {
     id: "1",
@@ -52,7 +52,7 @@ function TextField(props) {
   );
 }
 
-export default class SignInContainer extends Component {
+class SignInContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -85,21 +85,7 @@ export default class SignInContainer extends Component {
         });
       }
     }
-    /**
-     * Verify login token
-     */
-    const savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      verifyToken(savedToken)
-        .then(() => this.props.history.push("/seller"))
-        .catch((error) => {
-          console.log(error);
-          this.setState({
-            Message: "Session has expired, or token is invalid",
-            type: "error",
-          });
-        });
-    }
+    
   }
   async handleSubmit() {
     this.setState({ loading: true });
@@ -112,47 +98,48 @@ export default class SignInContainer extends Component {
       });
       return;
     }
-    try {
-      const user = await login(formValue);
-      console.log(user);
-      if (user.access_token) {
-        if (user.role === "seller") {
-          localStorage.removeItem("token");
-          localStorage.setItem("token", user.access_token);
-          this.props.history.push("/seller");
-        } else {
-          if (user.user.phonenumber === null) {
-            localStorage.removeItem("token");
-            localStorage.setItem("token", user.access_token);
-            this.props.history.push({
-              pathname: "/seller/create/verify",
-              state: {
-                message: "Kindly Verify your phone number",
-                ...user,
-                phoneVerified: false,
-              },
-            });
-          } else {
-             localStorage.removeItem("token");
-             localStorage.setItem("token", user.access_token);
-            this.props.history.push({
-              pathname: "/seller/create/verify",
-              state: {
-                message:
-                  "there is no store attached to your account, Create one.",
-                ...user,
-              },
-            });
-          }
-        }
-      } else {
-        this.setState({ errorMessage: "Authentication Failed" });
-      }
-    } catch (error) {
-      this.setState({ errorMessage: error });
-    }
-    this.setState({ loading: false });
-    console.log(formValue, "Form Value");
+    this.props.login(formValue);
+    // try {
+    //   const user = await login(formValue);
+    //   console.log(user);
+    //   if (user.access_token) {
+    //     if (user.role === "seller") {
+    //       localStorage.removeItem("token");
+    //       localStorage.setItem("token", user.access_token);
+    //       this.props.history.push("/seller");
+    //     } else {
+    //       if (user.user.phonenumber === null) {
+    //         localStorage.removeItem("token");
+    //         localStorage.setItem("token", user.access_token);
+    //         this.props.history.push({
+    //           pathname: "/seller/create/verify",
+    //           state: {
+    //             message: "Kindly Verify your phone number",
+    //             ...user,
+    //             phoneVerified: false,
+    //           },
+    //         });
+    //       } else {
+    //          localStorage.removeItem("token");
+    //          localStorage.setItem("token", user.access_token);
+    //         this.props.history.push({
+    //           pathname: "/seller/create/verify",
+    //           state: {
+    //             message:
+    //               "there is no store attached to your account, Create one.",
+    //             ...user,
+    //           },
+    //         });
+    //       }
+    //     }
+    //   } else {
+    //     this.setState({ errorMessage: "Authentication Failed" });
+    //   }
+    // } catch (error) {
+    //   this.setState({ errorMessage: error });
+    // }
+    // this.setState({ loading: false });
+    // console.log(formValue, "Form Value");
   }
 
   render() {
@@ -306,3 +293,13 @@ export default class SignInContainer extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  
+})
+
+const mapDispatchToProps = {
+  login
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInContainer);
